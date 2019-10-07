@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/addRoomFragment">
+    <fragment
+        android:id="@+id/addRoomFragment"
+        android:name="com.developer.wise4rmgod.landlord.AddRoomFragment"
+        android:label="fragment_add_room"
+        tools:layout="@layout/fragment_add_room" />
+    <fragment
+        android:id="@+id/addtenantFragment"
+        android:name="com.developer.wise4rmgod.landlord.AddtenantFragment"
+        android:label="fragment_addtenant"
+        tools:layout="@layout/fragment_addtenant" />
+    <fragment
+        android:id="@+id/deleteTenantFragment"
+        android:name="com.developer.wise4rmgod.landlord.DeleteTenantFragment"
+        android:label="fragment_delete_tenant"
+        tools:layout="@layout/fragment_delete_tenant" />
+</navigation>
