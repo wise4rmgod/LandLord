@@ -39,7 +39,7 @@ class DeleteAdapter(
 
         holder.itemView.setOnClickListener {
             //  context.startActivity(goto)
-            Toast.makeText(holder.itemView.context, "" + dataModel.id, Toast.LENGTH_SHORT).show()
+           // Toast.makeText(holder.itemView.context, "" + dataModel.id, Toast.LENGTH_SHORT).show()
         }
 
     }
