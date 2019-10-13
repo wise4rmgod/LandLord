@@ -3,12 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/addRoomFragment">
-    <fragment
-        android:id="@+id/addRoomFragment"
-        android:name="com.developer.wise4rmgod.landlord.AddRoomFragment"
-        android:label="fragment_add_room"
-        tools:layout="@layout/fragment_add_room" />
+    app:startDestination="@id/addtenantFragment">
     <fragment
         android:id="@+id/addtenantFragment"
         android:name="com.developer.wise4rmgod.landlord.AddtenantFragment"

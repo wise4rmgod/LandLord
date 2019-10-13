@@ -9,10 +9,11 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.navigation.ui.NavigationUI
+import com.developer.wise4rmgod.landlord.database.AppDatabase
+import com.developer.wise4rmgod.landlord.database.UserModel
 import com.google.android.material.navigation.NavigationView
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
-
 
     lateinit var toolbar: Toolbar
 
@@ -22,9 +23,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     lateinit var navigationView: NavigationView
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
 
         toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
@@ -42,6 +45,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         NavigationUI.setupWithNavController(navigationView, navController)
 
         navigationView.setNavigationItemSelectedListener(this)
+
+
+
     }
 
 
@@ -65,16 +71,13 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
             R.id.second -> navController.navigate(R.id.deleteTenantFragment)
 
-            R.id.third -> navController.navigate(R.id.addRoomFragment)
         }
         return true
 
     }
 
-
     // Setting Up One Time Navigation
     private fun setupNavigation() {
-
 
     }
 
