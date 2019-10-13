@@ -58,6 +58,7 @@ class AddtenantFragment : Fragment() {
         savebtn.setOnClickListener {
 
             val newuser = UserModel()
+            newuser.fullname = ""
             addtenantViewModel?.addtenantmutablelivedata?.value = newuser
 
             Toast.makeText(activity, "Successful", Toast.LENGTH_SHORT).show()
@@ -71,10 +72,7 @@ class AddtenantFragment : Fragment() {
         GlobalScope.launch {
 
             db?.UserDAO()?.insertAll(insertnewuser)
-
             //fetch Records
-
-
         }
 
 

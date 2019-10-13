@@ -6,21 +6,16 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.room.Room
 import com.developer.wise4rmgod.landlord.adapter.DeleteAdapter
 import com.developer.wise4rmgod.landlord.database.AppDatabase
 import com.developer.wise4rmgod.landlord.database.UserModel
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
 
-/**
- * A simple [Fragment] subclass.
- */
+
 class DeleteTenantFragment : Fragment() {
 
     var db: AppDatabase? = null
@@ -59,12 +54,7 @@ class DeleteTenantFragment : Fragment() {
             }
 
         }
-        /**   GlobalScope.launch {
-        val getdetails = db?.UserDAO()?.getAll()
 
-
-
-        } **/
         return deleteview
     }
 

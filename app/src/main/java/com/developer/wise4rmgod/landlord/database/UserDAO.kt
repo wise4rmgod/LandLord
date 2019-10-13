@@ -12,6 +12,9 @@ interface UserDAO {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertAll(todo: UserModel)
 
+    @Query("DELETE FROM landlord WHERE id = :userid")
+    fun deletebyid(userid: Int)
+
     @Delete
-    fun delete(todo: UserModel)
+    fun deleteall(todo: UserModel)
 }
