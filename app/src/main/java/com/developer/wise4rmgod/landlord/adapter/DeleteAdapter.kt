@@ -46,7 +46,6 @@ class DeleteAdapter(
         ).build()
 
         val dataModel = dataList.get(position)
-
         holder.fullname.text = dataModel.fullname
         holder.occupations.text = dataModel.occupation
 
@@ -55,6 +54,7 @@ class DeleteAdapter(
                 db?.UserDAO()?.deletebyid(dataModel.id!!)
                 uiThread {
 
+                    Toast.makeText(holder.itemView.context, "deleted", Toast.LENGTH_SHORT).show()
                 }
             }
             GlobalScope.launch {

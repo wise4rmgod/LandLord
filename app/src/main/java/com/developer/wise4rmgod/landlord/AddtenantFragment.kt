@@ -10,11 +10,13 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
+import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.room.Room
 import com.developer.wise4rmgod.landlord.database.AppDatabase
 import com.developer.wise4rmgod.landlord.database.UserModel
+import com.developer.wise4rmgod.landlord.databinding.FragmentAddtenantBinding
 import com.developer.wise4rmgod.landlord.viewmodel.Addtenantviewmodel
 import kotlinx.coroutines.*
 import org.jetbrains.anko.doAsync
@@ -26,12 +28,17 @@ import org.jetbrains.anko.uiThread
  */
 class AddtenantFragment : Fragment() {
 
+    lateinit var addtenantBinding: FragmentAddtenantBinding
     private var db: AppDatabase? = null
     private var addtenantViewModel: Addtenantviewmodel? = null
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        //  val addview = inflater.inflate(R.layout.fragment_addtenant, container, false)
+
+        addtenantBinding = FragmentAddtenantBinding.inflate(inflater, container, false)
+        addtenantBinding.lifecycleOwner
         // Inflate the layout for this fragment
         // var db = Room.databaseBuilder(applicationContext, AppDb::class.java, "BookDB").build()
         addtenantViewModel = ViewModelProviders.of(this).get(Addtenantviewmodel::class.java)
@@ -41,11 +48,6 @@ class AddtenantFragment : Fragment() {
             "landlordDB"
         ).build()
         // db = AppDatabase.getAppDataBase(context = activity?.applicationContext!!)
-        val addview = inflater.inflate(R.layout.fragment_addtenant, container, false)
-
-        val savebtn = addview.findViewById<Button>(R.id.savetenant)
-        val test = addview.findViewById<TextView>(R.id.tenanttext)
-
 
         addtenantViewModel?.addtenant()?.observe(this,
             Observer<UserModel> { t ->
@@ -55,17 +57,21 @@ class AddtenantFragment : Fragment() {
 
             })
 
-        savebtn.setOnClickListener {
+        addtenantBinding.savetenant.setOnClickListener {
 
             val newuser = UserModel()
-            newuser.fullname = ""
+            newuser.fullname = addtenantBinding.tenantfullname.text.toString()
+            newuser.occupation = addtenantBinding.tenantoccupation.text.toString()
+            newuser.state = addtenantBinding.tenantstate.text.toString()
+            newuser.phonenumber = addtenantBinding.tenantphonenumber.text.toString().toInt()
+            newuser.age = addtenantBinding.tenantage.text.toString().toInt()
             addtenantViewModel?.addtenantmutablelivedata?.value = newuser
 
             Toast.makeText(activity, "Successful", Toast.LENGTH_SHORT).show()
 
         }
 
-        return addview
+        return addtenantBinding.root
     }
 
     fun savetenant(insertnewuser: UserModel) {
