@@ -1,8 +1,12 @@
 package com.developer.wise4rmgod.landlord
 
+import android.content.Context
+import android.net.ConnectivityManager
+import android.net.NetworkInfo
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
+import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
@@ -12,6 +16,12 @@ import androidx.navigation.ui.NavigationUI
 import com.developer.wise4rmgod.landlord.database.AppDatabase
 import com.developer.wise4rmgod.landlord.database.UserModel
 import com.google.android.material.navigation.NavigationView
+import androidx.databinding.adapters.TextViewBindingAdapter.setText
+import android.os.CountDownTimer
+import androidx.core.app.ComponentActivity.ExtraData
+import androidx.core.content.ContextCompat.getSystemService
+import android.icu.lang.UCharacter.GraphemeClusterBreak.T
+
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
@@ -47,7 +57,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         navigationView.setNavigationItemSelectedListener(this)
 
 
-
     }
 
 
@@ -63,7 +72,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         p0.isChecked = true
 
         drawerLayout.closeDrawers()
-        val id = p0.getItemId()
+        val id = p0.itemId
 
         when (id) {
 
@@ -88,6 +97,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             super.onBackPressed()
         }
     }
+
+
+
 
 }
 

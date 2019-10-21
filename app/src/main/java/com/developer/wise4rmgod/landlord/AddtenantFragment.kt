@@ -1,6 +1,11 @@
 package com.developer.wise4rmgod.landlord
 
 
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.net.ConnectivityManager
+import android.net.NetworkInfo
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -14,6 +19,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.room.Room
+import com.developer.wise4rmgod.landlord.broadcastreceiver.NetworkChangeReceiver
 import com.developer.wise4rmgod.landlord.database.AppDatabase
 import com.developer.wise4rmgod.landlord.database.UserModel
 import com.developer.wise4rmgod.landlord.databinding.FragmentAddtenantBinding
@@ -21,6 +27,11 @@ import com.developer.wise4rmgod.landlord.viewmodel.Addtenantviewmodel
 import kotlinx.coroutines.*
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
+import android.R.attr.data
+import android.os.CountDownTimer
+import androidx.lifecycle.LiveData
+import androidx.work.*
+import java.util.*
 
 
 /**
@@ -71,6 +82,8 @@ class AddtenantFragment : Fragment() {
 
         }
 
+        checktextchange()
+
         return addtenantBinding.root
     }
 
@@ -81,7 +94,79 @@ class AddtenantFragment : Fragment() {
             //fetch Records
         }
 
+    }
+
+    fun checktextchange() {
+        object : CountDownTimer(2000, 1000) {
+            override fun onTick(millisUntilFinished: Long) {
+                addtenantBinding.tenanttext.text = "getting started"
+
+            }
+
+            override fun onFinish() {
+                addtenantBinding.tenanttext.text = "finished"
+            }
+        }.start()
+    }
+
+    fun checknewinternet() {
+
+        val internetdata = Data.Builder()
+        internetdata.putString("internet", "Internet is Available")
+            .build()
+        val constraints = Constraints.Builder()
+            //  .setRequiredNetworkType(NetworkType.CONNECTED)
+            .setRequiresCharging(true)
+            .build()
+
+        val simpleRequest = OneTimeWorkRequest.Builder(MyworkManager::class.java)
+            // .setInputData(internetdata)
+            .setConstraints(constraints)
+            .addTag("simple_work")
+            .build()
+
+        val workerid = simpleRequest.id
+
+        WorkManager.getInstance().enqueue(simpleRequest)
+
+        WorkManager.getInstance().getWorkInfoByIdLiveData(workerid)
+            .observe(this, Observer { workInfo ->
+                // Check if the current work's state is "successfully finished"
+                if (workInfo != null && workInfo.state == WorkInfo.State.SUCCEEDED) {
+                    Toast.makeText(activity, "Internet Available", Toast.LENGTH_SHORT).show()
+                }
+            })
 
     }
 
+
+    fun checkinternet() {
+
+
+        doAsync {
+
+            uiThread {
+
+                //check for internet
+                val cm =
+                    activity!!.applicationContext.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+                val activeNetwork: NetworkInfo? = cm.activeNetworkInfo
+                val isConnected: Boolean = activeNetwork?.isConnectedOrConnecting == true
+                if (!isConnected) {
+
+                    addtenantBinding.tenanttext.text = "internet is not avaliable"
+
+                } else {
+
+                    addtenantBinding.tenanttext.text = "internet is avaliable"
+                }
+            }
+        }
+
+
+    }
+
+
 }
+
+
