@@ -21,16 +21,21 @@ import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
 import android.os.CountDownTimer
 import androidx.work.*
+import javax.inject.Inject
 
 class AddtenantFragment : Fragment() {
 
     lateinit var addtenantBinding: FragmentAddtenantBinding
     private var db: AppDatabase? = null
+
+    @Inject
     private var addtenantViewModel: Addtenantviewmodel? = null
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+       // AndroidInjection.inject(activity)
         //  val addview = inflater.inflate(R.layout.fragment_addtenant, container, false)
 
         addtenantBinding = FragmentAddtenantBinding.inflate(inflater, container, false)
