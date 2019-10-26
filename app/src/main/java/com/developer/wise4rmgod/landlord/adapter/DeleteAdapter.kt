@@ -18,7 +18,7 @@ import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
 
 class DeleteAdapter(
-    private var dataList: List<UserModel>,
+    private var dataList: ArrayList<UserModel>,
     private val context: Context
 ) :
     RecyclerView.Adapter<DeleteAdapter.ViewHolder>() {
@@ -51,15 +51,16 @@ class DeleteAdapter(
 
         holder.deletebtn.setOnClickListener {
             doAsync {
-                db?.UserDAO()?.deletebyid(dataModel.id!!)
+               db?.UserDAO()?.deleteall(dataModel)
                 uiThread {
 
-                    Toast.makeText(holder.itemView.context, "deleted", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(holder.itemView.context, "deleted"+position, Toast.LENGTH_SHORT).show()
+                    dataList.remove(dataModel)
+                    notifyDataSetChanged()
+                    notifyItemRemoved(position)
                 }
             }
-            GlobalScope.launch {
 
-            }
         }
 
         holder.itemView.setOnClickListener {

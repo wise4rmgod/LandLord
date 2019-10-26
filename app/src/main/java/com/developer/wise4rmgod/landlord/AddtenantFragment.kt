@@ -1,42 +1,27 @@
 package com.developer.wise4rmgod.landlord
 
 
-import android.content.BroadcastReceiver
 import android.content.Context
-import android.content.Intent
 import android.net.ConnectivityManager
 import android.net.NetworkInfo
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.TextView
 import android.widget.Toast
-import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.room.Room
-import com.developer.wise4rmgod.landlord.broadcastreceiver.NetworkChangeReceiver
 import com.developer.wise4rmgod.landlord.database.AppDatabase
 import com.developer.wise4rmgod.landlord.database.UserModel
 import com.developer.wise4rmgod.landlord.databinding.FragmentAddtenantBinding
 import com.developer.wise4rmgod.landlord.viewmodel.Addtenantviewmodel
-import kotlinx.coroutines.*
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
-import android.R.attr.data
 import android.os.CountDownTimer
-import androidx.lifecycle.LiveData
 import androidx.work.*
-import java.util.*
 
-
-/**
- * A simple [Fragment] subclass.
- */
 class AddtenantFragment : Fragment() {
 
     lateinit var addtenantBinding: FragmentAddtenantBinding
@@ -68,32 +53,40 @@ class AddtenantFragment : Fragment() {
 
             })
 
+
         addtenantBinding.savetenant.setOnClickListener {
 
-            val newuser = UserModel()
-            newuser.fullname = addtenantBinding.tenantfullname.text.toString()
-            newuser.occupation = addtenantBinding.tenantoccupation.text.toString()
-            newuser.state = addtenantBinding.tenantstate.text.toString()
-            newuser.phonenumber = addtenantBinding.tenantphonenumber.text.toString().toInt()
-            newuser.age = addtenantBinding.tenantage.text.toString().toInt()
-            addtenantViewModel?.addtenantmutablelivedata?.value = newuser
+            val newuser = UserModel(
+                addtenantBinding.tenantfullname.text.toString(),
+                addtenantBinding.tenantage.text.toString().toInt(),
+                addtenantBinding.tenantstate.text.toString(),
+                addtenantBinding.tenantoccupation.text.toString(),
+                addtenantBinding.tenantphonenumber.text.toString().toInt()
+            )
+            addtenantBinding.tenantfullname.text = null
+            addtenantBinding.tenantage.text = null
+            addtenantBinding.tenantstate.text = null
+            addtenantBinding.tenantoccupation.text = null
+            addtenantBinding.tenantphonenumber.text = null
 
-            Toast.makeText(activity, "Successful", Toast.LENGTH_SHORT).show()
+            addtenantViewModel?.addtenantmutablelivedata?.value = newuser
 
         }
 
-        checktextchange()
+        //  checktextchange()
 
         return addtenantBinding.root
     }
 
     fun savetenant(insertnewuser: UserModel) {
-        GlobalScope.launch {
 
+        doAsync {
             db?.UserDAO()?.insertAll(insertnewuser)
-            //fetch Records
-        }
+            uiThread {
+                Toast.makeText(activity, "Added Successfully", Toast.LENGTH_SHORT).show()
+            }
 
+        }
     }
 
     fun checktextchange() {
